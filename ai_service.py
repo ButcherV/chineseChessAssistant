@@ -2,6 +2,7 @@ from openai import OpenAI
 import sys
 import io
 import re
+import os
 from contextlib import redirect_stdout
 
 # 引用你的工具
