@@ -8,8 +8,12 @@ from contextlib import redirect_stdout
 from tool_utils import print_fen_board
 
 # --- 配置 ---
-API_KEY = "REMOVED_API_KEY" 
+API_KEY = os.getenv("DEEPSEEK_API_KEY")
 BASE_URL = "https://api.deepseek.com"
+
+if not API_KEY:
+    print("❌ 错误: 未找到 API_KEY，请检查 .env 文件配置")
+    sys.exit(1)
 
 try:
     client = OpenAI(api_key=API_KEY, base_url=BASE_URL)
