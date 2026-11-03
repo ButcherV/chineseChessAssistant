@@ -1,5 +1,7 @@
 # 中国象棋助手 · Chinese Chess Assistant
 
+简体中文 | [English](README.en.md)
+
 上传一张中国象棋截图，识别棋盘布局，计算推荐招法，并可通过 DeepSeek 生成中文局势解说。
 
 项目是一个 **Python / Flask HTTP 服务**，适合搭配命令行、手机快捷指令或自行开发的前端使用。当前仓库没有网页界面，也不会自动截屏或操作棋子。
