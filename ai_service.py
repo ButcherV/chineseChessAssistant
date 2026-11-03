@@ -1,26 +1,24 @@
 from openai import OpenAI
-import sys
 import io
 import re
 import os
 from contextlib import redirect_stdout
+from pathlib import Path
+from dotenv import load_dotenv
 
 # 引用你的工具
 from tool_utils import print_fen_board
 
 # --- 配置 ---
+load_dotenv(Path(__file__).resolve().parent / ".env", override=False)
 API_KEY = os.getenv("DEEPSEEK_API_KEY")
 BASE_URL = "https://api.deepseek.com"
 
-if not API_KEY:
-    print("❌ 错误: 未找到 API_KEY，请检查 .env 文件配置")
-    sys.exit(1)
-
-try:
-    client = OpenAI(api_key=API_KEY, base_url=BASE_URL)
-    print("✅ DeepSeek Client 初始化成功.")
-except Exception as e:
-    sys.exit(1)
+client = None
+if API_KEY and API_KEY.strip():
+    client = OpenAI(api_key=API_KEY.strip(), base_url=BASE_URL)
+else:
+    print("ℹ️ 未设置 DEEPSEEK_API_KEY，将仅返回引擎招法。")
 
 # --- 1. 抓取字符棋盘 (复用 tool_utils) ---
 def get_board_string_from_tool(fen):
@@ -107,6 +105,8 @@ def get_orientation_desc(fen):
 
 # --- 4. 主函数 ---
 def ask_deepseek(fen, move_chn, score, pv_list):
+    if client is None:
+        return f"建议行棋：{move_chn}"
     
     # 1. 抓取棋盘图
     text_board = get_board_string_from_tool(fen)

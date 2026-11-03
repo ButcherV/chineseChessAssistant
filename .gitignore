@@ -1,5 +1,6 @@
 # Python 虚拟环境
 venv/
+.venv/
 __pycache__/
 *.pyc
 
@@ -13,3 +14,6 @@ bad_cases/
 .idea/
 
 .env
+.env.*
+!.env.example
+uploads/
